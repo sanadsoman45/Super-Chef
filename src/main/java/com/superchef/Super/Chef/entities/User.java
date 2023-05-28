@@ -1,5 +1,6 @@
 package com.superchef.Super.Chef.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -30,7 +31,8 @@ public class User {
         this.userMapping = userMapping;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<User_Fav_Recipes> userMapping = new HashSet<>();
 
 

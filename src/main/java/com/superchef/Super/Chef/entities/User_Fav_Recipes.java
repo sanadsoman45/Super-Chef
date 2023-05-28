@@ -1,7 +1,10 @@
 package com.superchef.Super.Chef.entities;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 
+@Component
 @Entity
 @Table(name="userFav")
 public class User_Fav_Recipes {

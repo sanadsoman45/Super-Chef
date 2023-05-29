@@ -32,7 +32,6 @@ public class User {
     }
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user",fetch = FetchType.EAGER)
-    @JsonIgnore
     private Set<User_Fav_Recipes> userMapping = new HashSet<>();
 
 
@@ -59,4 +58,6 @@ public class User {
     public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
+
+
 }

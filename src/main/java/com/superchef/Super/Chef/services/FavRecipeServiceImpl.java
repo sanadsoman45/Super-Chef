@@ -34,9 +34,6 @@ public class FavRecipeServiceImpl implements FavRecipeService{
     private User user;
 
     @Autowired
-    private FavRecipes favRecipes;
-
-    @Autowired
     private User_Fav_Recipes userfavrecipes;
 
     @Override
@@ -45,12 +42,13 @@ public class FavRecipeServiceImpl implements FavRecipeService{
         Optional<User> result = userDao.findById(emailid);
         //getting the list of recipes based on recipe name.
         Recipes recipe = recipeDao.findByrecipeName(recipeName);
+        FavRecipes favRecipes = null;
         //if condition checks whether the result is null or not.
         if(result.isPresent()){
             if(recipe!=null){
                 //Retrieveing the user based on the email-id provided.
                 user = result.get();
-
+                favRecipes = new FavRecipes();
                 //Setting the data retrieved from recipes into favRecipes entity for saving it into database.
                 favRecipes.setFavrecipeName(recipe.getRecipeName());
                 favRecipes.setFavimageUrl(recipe.getImageUrl());
@@ -73,9 +71,6 @@ public class FavRecipeServiceImpl implements FavRecipeService{
                 user.setUserMapping(favRecipesSet);
                 //Saving the user to the database.
                 userDao.save(user);
-                System.out.println(user);
-
-
             }
             else{
                 throw new RecipeNotFound("Not Found For "+recipeName);
@@ -85,5 +80,94 @@ public class FavRecipeServiceImpl implements FavRecipeService{
             throw new userNotFound("User Not Found for "+emailid);
         }
         return favRecipesDao.save(favRecipes);
+    }
+
+    @Override
+    public Set<FavRecipes> getFavRecipes(String emailid, String recipename) {
+        Optional<User> result = userDao.findById(emailid);
+        Set<FavRecipes> favRecipeSet = new HashSet<>();
+        if(result.isPresent()){
+            user = result.get();
+            for(User_Fav_Recipes mapping:user.getUserMapping()){
+                if(mapping.getUser().getUserEmail().equalsIgnoreCase(emailid) && mapping.getFavRecipes().getFavrecipeName().equalsIgnoreCase(recipename)){
+                    favRecipeSet.add(mapping.getFavRecipes());
+                }
+            }
+            System.out.println(favRecipeSet);
+            if(favRecipeSet.size()==0){
+                throw new RecipeNotFound("No Recipes Found.");
+            }
+        }
+        else{
+            throw new userNotFound("User not Found for "+emailid);
+        }
+        return favRecipeSet;
+    }
+
+    @Override
+    public Set<FavRecipes> getFavRecipesByEmailid(String emailid) {
+        Optional<User> result = userDao.findById(emailid);
+        Set<FavRecipes> favRecipeSet = new HashSet<>();
+        if(result.isPresent()){
+            user = result.get();
+            System.out.println("Inside the method.");
+            for(User_Fav_Recipes mapping:user.getUserMapping()){
+                if(mapping.getUser().getUserEmail().equalsIgnoreCase(emailid)){
+                    favRecipeSet.add(mapping.getFavRecipes());
+                }
+            }
+            System.out.println(favRecipeSet);
+            if(favRecipeSet.size()==0){
+                throw new RecipeNotFound("No Recipes Found.");
+            }
+        }
+        else{
+            throw new userNotFound("User not Found for "+emailid);
+        }
+        return favRecipeSet;
+    }
+
+    @Override
+    public Set<FavRecipes> getFavRecipesByIng(String emailid, String ingName) {
+        Optional<User> result = userDao.findById(emailid);
+        Set<FavRecipes> favRecipeSet = new HashSet<>();
+        if(result.isPresent()){
+            user = result.get();
+            System.out.println("Inside the method.");
+            for(User_Fav_Recipes mapping:user.getUserMapping()){
+                if(mapping.getUser().getUserEmail().equalsIgnoreCase(emailid) && mapping.getFavRecipes().getFavrecipeIng().toLowerCase().contains(ingName.toLowerCase())){
+                    favRecipeSet.add(mapping.getFavRecipes());
+                }
+            }
+            System.out.println(favRecipeSet);
+            if(favRecipeSet.size()==0){
+                throw new RecipeNotFound("No Recipes Found.");
+            }
+        }
+        else{
+            throw new userNotFound("User not Found for "+emailid);
+        }
+        return favRecipeSet;
+    }
+
+    public int getFavRecipesCount(String emailid){
+        Optional<User> result = userDao.findById(emailid);
+        Set<FavRecipes> favRecipeSet = new HashSet<>();
+        if(result.isPresent()){
+            user = result.get();
+            System.out.println("Inside the method.");
+            for(User_Fav_Recipes mapping:user.getUserMapping()){
+                if(mapping.getUser().getUserEmail().equalsIgnoreCase(emailid)){
+                    favRecipeSet.add(mapping.getFavRecipes());
+                }
+            }
+            if(favRecipeSet.size()==0){
+                throw new RecipeNotFound("No Recipes Found.");
+            }
+        }
+        else{
+            throw new userNotFound("User not Found for "+emailid);
+        }
+        return favRecipeSet.size();
     }
 }

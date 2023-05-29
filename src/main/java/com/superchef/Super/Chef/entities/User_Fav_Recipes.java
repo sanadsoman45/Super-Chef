@@ -1,5 +1,6 @@
 package com.superchef.Super.Chef.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class User_Fav_Recipes {
     private int id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="user_id")
     private User user;
 
@@ -44,4 +46,6 @@ public class User_Fav_Recipes {
     public void setFavRecipes(FavRecipes favRecipes) {
         this.favRecipes = favRecipes;
     }
+
+
 }

@@ -66,13 +66,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptionResponse,HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<ExceptionResponse> handlerException(Exception exception){
-        ExceptionResponse exceptionResponse = new ExceptionResponse();
-        exceptionResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
-        exceptionResponse.setMessage(exception.getCause().getMessage());
-        exceptionResponse.setTimeStamp(LocalDateTime.now());
-        return new ResponseEntity<>(exceptionResponse,HttpStatus.NOT_FOUND);
-    }
+//    @ExceptionHandler
+//    public ResponseEntity<ExceptionResponse> handlerException(Exception exception){
+//        ExceptionResponse exceptionResponse = new ExceptionResponse();
+//        exceptionResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
+//        exceptionResponse.setMessage(exception.getCause().getMessage());
+//        exceptionResponse.setTimeStamp(LocalDateTime.now());
+//        return new ResponseEntity<>(exceptionResponse,HttpStatus.NOT_FOUND);
+//    }
 
 }

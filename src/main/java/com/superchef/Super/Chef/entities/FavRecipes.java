@@ -1,11 +1,14 @@
 package com.superchef.Super.Chef.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 @Entity
 @Table(name="Fav_Recipes")
 public class FavRecipes {
@@ -13,8 +16,9 @@ public class FavRecipes {
     //define the fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "favrecipeId", length = 100, nullable = false)
+    @Column(name = "favrecipeId", length = 100)
     private int favrecipeId;
+
     @Column(name = "favrecipeName", length = 200)
     private String favrecipeName;
     @Column(name = "favimageUrl", length = 65535, columnDefinition = "TEXT")
@@ -33,7 +37,10 @@ public class FavRecipes {
     @Column(name = "favtotalTime", length = 100)
     private String favtotalTime;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "favRecipes",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<User_Fav_Recipes> favMappings = new HashSet<>();
+
     public Set<User_Fav_Recipes> getFavMappings() {
         return favMappings;
     }
@@ -42,8 +49,7 @@ public class FavRecipes {
         this.favMappings = favMappings;
     }
 
-    @OneToMany(mappedBy = "favRecipes")
-    private Set<User_Fav_Recipes> favMappings = new HashSet<>();
+
 
     //defining the getters and setters.
     public int getFavrecipeId() {
@@ -109,4 +115,6 @@ public class FavRecipes {
     public void setFavtotalTime(String favtotalTime) {
         this.favtotalTime = favtotalTime;
     }
+
+
 }

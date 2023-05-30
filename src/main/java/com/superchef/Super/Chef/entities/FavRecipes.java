@@ -37,18 +37,9 @@ public class FavRecipes {
     @Column(name = "favtotalTime", length = 100)
     private String favtotalTime;
 
-    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "favRecipes",fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},mappedBy = "favRecipes",fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User_Fav_Recipes> favMappings = new HashSet<>();
-
-    public Set<User_Fav_Recipes> getFavMappings() {
-        return favMappings;
-    }
-
-    public void setFavMappings(Set<User_Fav_Recipes> favMappings) {
-        this.favMappings = favMappings;
-    }
-
 
 
     //defining the getters and setters.
@@ -114,6 +105,14 @@ public class FavRecipes {
 
     public void setFavtotalTime(String favtotalTime) {
         this.favtotalTime = favtotalTime;
+    }
+
+    public Set<User_Fav_Recipes> getFavMappings() {
+        return favMappings;
+    }
+
+    public void setFavMappings(Set<User_Fav_Recipes> favMappings) {
+        this.favMappings = favMappings;
     }
 
 

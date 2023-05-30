@@ -3,6 +3,8 @@ package com.superchef.Super.Chef.entities;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "recipes")
@@ -40,10 +42,19 @@ public class Recipes {
     @Column(name = "total_time",length = 100, nullable = false)
     private String total_time;
 
-
+//    @OneToMany(orphanRemoval = true)
+//    private Set<FavRecipes> favRecipesSet = new HashSet<>();
 
     //define the getters and setters
 
+
+//    public Set<FavRecipes> getFavRecipesSet() {
+//        return favRecipesSet;
+//    }
+//
+//    public void setFavRecipesSet(Set<FavRecipes> favRecipesSet) {
+//        this.favRecipesSet = favRecipesSet;
+//    }
 
     public int getRecipeId() {
         return recipeId;

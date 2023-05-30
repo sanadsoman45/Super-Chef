@@ -1,0 +1,11 @@
+30 May:
+
+Pending tasks:
+Need to check the bug in deleteallrecipes method of favrecipesService cxlass.
+Need to work on update method of user to reflect the email change in recipes records.
+Need to work on logic for deleteing the fav. recipes when the recipe is deleted. 
+
+Completed Tasks:
+FavRecipes will be deleted when user will be deleted through cascade operations.
+FavRecipes will be ddeleted and it's associations will also be removed from user based on emailid and recipe name provided.
+

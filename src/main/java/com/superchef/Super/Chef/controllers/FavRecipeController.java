@@ -39,4 +39,14 @@ public class FavRecipeController {
         return favRecipeService.getFavRecipesCount(emailid);
     }
 
+    @DeleteMapping("/users/{emailid}/recipe/{recipename}")
+    public void deleteRecipeByName(@PathVariable String emailid, @PathVariable String recipename){
+        favRecipeService.deleteRecipeByName(emailid,recipename);
+    }
+
+    @DeleteMapping("/users/favrecipe/{emailid}")
+    public void deleteRecipe(@PathVariable String emailid){
+        favRecipeService.deleteAllRecipe(emailid);
+    }
+
 }

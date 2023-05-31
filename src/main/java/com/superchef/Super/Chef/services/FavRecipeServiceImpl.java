@@ -79,7 +79,7 @@ public class FavRecipeServiceImpl implements FavRecipeService{
         else{
             throw new userNotFound("User Not Found for "+emailid);
         }
-        return favRecipesDao.save(favRecipes);
+        return favRecipes;
     }
 
     @Override
@@ -169,5 +169,51 @@ public class FavRecipeServiceImpl implements FavRecipeService{
             throw new userNotFound("User not Found for "+emailid);
         }
         return favRecipeSet.size();
+    }
+
+    public void deleteRecipeByName(String emailid, String recipeName){
+        Optional<User> result = userDao.findById(emailid);
+        int favRecipeId = 0;
+        if(result.isPresent()){
+            user = result.get();
+            for(User_Fav_Recipes mapping:user.getUserMapping()){
+                System.out.println("Inside the for loop");
+                if(mapping.getUser().getUserEmail().equalsIgnoreCase(emailid) && mapping.getFavRecipes().getFavrecipeName().equalsIgnoreCase(recipeName)){
+                    user.getUserMapping().remove(mapping);
+                    favRecipeId = mapping.getFavRecipes().getFavrecipeId();
+                    System.out.println("Internally:"+favRecipeId);
+
+                    System.out.println("Inside if ");
+
+                    break;
+                }
+            }
+            favRecipesDao.deleteById(favRecipeId);
+            System.out.println("Fav Recipe ID is:"+favRecipeId);
+
+
+        }
+        else{
+            throw new userNotFound("User not Found for "+emailid);
+        }
+
+    }
+
+    public void deleteAllRecipe(String emailid){
+        Optional<User> result = userDao.findById(emailid);
+        if(result.isPresent()){
+            user = result.get();
+            int id =0;
+            Set<Integer> recipeIdsToDelete = new HashSet<>();
+            for (User_Fav_Recipes mapping : user.getUserMapping()) {
+                recipeIdsToDelete.add(mapping.getFavRecipes().getFavrecipeId());
+            }
+
+            user.getUserMapping().clear();
+            favRecipesDao.deleteAllById(recipeIdsToDelete);
+        }
+        else{
+            throw new userNotFound("User not found.");
+        }
     }
 }

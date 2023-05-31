@@ -4,6 +4,7 @@ import com.superchef.Super.Chef.Exceptions.UserEmailAlreadyExists;
 import com.superchef.Super.Chef.Exceptions.userNotFound;
 import com.superchef.Super.Chef.daos.UserDao;
 import com.superchef.Super.Chef.entities.User;
+import com.superchef.Super.Chef.entities.User_Fav_Recipes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,18 +98,20 @@ public class UserServiceImpl implements UserService{
     public boolean deleteUser(String emailid) {
 
         boolean check = true;
-
-        if(!userDao.findById(emailid).isPresent()){
+        Optional<User> result = userDao.findById(emailid);
+        if(!result.isPresent()){
             check = false;
             throw new userNotFound("User Not Found "+emailid);
         }
-        userDao.deleteById(emailid);
+        else{
+            User user = result.get();
+            for(User_Fav_Recipes mappings: user.getUserMapping()){
+                if(mappings.getUser().getUserEmail().toLowerCase().contains(emailid.toLowerCase())){
+                    mappings.getFavRecipes().getFavMappings().remove(mappings);
+                }
+            }
+            userDao.deleteById(emailid);
+        }
         return check;
     }
-
-
-
-
-
-
 }

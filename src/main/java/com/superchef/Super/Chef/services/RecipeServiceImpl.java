@@ -2,19 +2,27 @@ package com.superchef.Super.Chef.services;
 
 import com.superchef.Super.Chef.Exceptions.RecipeNotFound;
 import com.superchef.Super.Chef.Exceptions.recipeAlreadyexists;
+import com.superchef.Super.Chef.daos.FavRecipesDao;
 import com.superchef.Super.Chef.daos.RecipeDao;
+import com.superchef.Super.Chef.entities.FavRecipes;
 import com.superchef.Super.Chef.entities.Recipes;
+import com.superchef.Super.Chef.entities.User_Fav_Recipes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
     @Autowired
     RecipeDao recipeDao;
+
+    @Autowired
+    FavRecipesDao favRecipeDao;
 
     @Override
     public Recipes addRecipes(Recipes recipes) {
@@ -54,11 +62,13 @@ public class RecipeServiceImpl implements RecipeService {
         return newRecipelst;
     }
 
-    public void deleteUser(String recipename){
+    public void deleteRecipe(String recipename){
         Recipes recipe = recipeDao.findByrecipeName(recipename);
+        FavRecipes favRecipe = null;
         if(recipe == null){
             throw new RecipeNotFound("Recipe Not Found For the Recipe Name.");
         }
+
         recipeDao.deleteById(recipe.getRecipeId());
     }
 

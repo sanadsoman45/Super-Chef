@@ -19,7 +19,8 @@ public class User_Fav_Recipes {
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     @JoinColumn(name="favrecipe_id")
     private FavRecipes favRecipes;
 

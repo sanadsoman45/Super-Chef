@@ -38,7 +38,6 @@ public class FavRecipes {
     private String favtotalTime;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},mappedBy = "favRecipes",fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<User_Fav_Recipes> favMappings = new HashSet<>();
 
 

@@ -112,14 +112,6 @@ public class UserServiceImpl implements UserService{
             }
             userDao.deleteById(emailid);
         }
-
-
         return check;
     }
-
-
-
-
-
-
 }

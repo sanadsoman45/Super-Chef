@@ -17,7 +17,7 @@ public interface RecipeService {
 
     List<Recipes> getRecipeByIngName(String ingname);
 
-    void deleteUser(String recipename);
+    void deleteRecipe(String recipename);
 
     int getRecipesCount();
 }

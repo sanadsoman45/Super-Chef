@@ -37,7 +37,7 @@ public class RecipeController {
 
     @DeleteMapping("/recipes/{recipename}")
     public String deleteUser(@PathVariable String recipename){
-        recipeService.deleteUser(recipename);
+        recipeService.deleteRecipe(recipename);
         return "Recipe deleted for "+recipename;
     }
 

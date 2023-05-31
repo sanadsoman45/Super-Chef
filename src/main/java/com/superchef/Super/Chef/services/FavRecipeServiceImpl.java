@@ -204,18 +204,13 @@ public class FavRecipeServiceImpl implements FavRecipeService{
         if(result.isPresent()){
             user = result.get();
             int id =0;
-
-            for(User_Fav_Recipes mapping: user.getUserMapping()){
-                if(mapping.getUser().getUserEmail().toLowerCase().contains(emailid.toLowerCase())){
-                    System.out.println("Inside if-for loop");
-                    id = mapping.getFavRecipes().getFavrecipeId();
-                    user.getUserMapping().remove(mapping);
-                    System.out.println("emailid is:"+emailid+"userid is:"+id);
-                }
-                System.out.println("Inside for-loop");
-                System.out.println("emailid is:"+emailid+"userid is:"+id);
+            Set<Integer> recipeIdsToDelete = new HashSet<>();
+            for (User_Fav_Recipes mapping : user.getUserMapping()) {
+                recipeIdsToDelete.add(mapping.getFavRecipes().getFavrecipeId());
             }
-            favRecipesDao.deleteById(id);
+
+            user.getUserMapping().clear();
+            favRecipesDao.deleteAllById(recipeIdsToDelete);
         }
         else{
             throw new userNotFound("User not found.");

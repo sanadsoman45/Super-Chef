@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -67,6 +68,7 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public int updateUser(User user, String emailid) {
         Optional<User> result = userDao.findById(emailid);
+        User localUser = null;
         int updateCount;
 
         if(!result.isPresent()){
@@ -74,12 +76,26 @@ public class UserServiceImpl implements UserService{
         }
         else if(user.getUserEmail().equalsIgnoreCase(emailid)){
             updateCount = userDao.updateUser(user.getUserEmail(),user.getUserName(),user.getPasswd(),emailid);
+            if(updateCount==1){
+                localUser = result.get();
+                Set<User_Fav_Recipes> mapping = localUser.getUserMapping();
+                for(User_Fav_Recipes mapuser:mapping){
+                    mapuser.setUser(user);
+                }
+            }
         }
         else if(userDao.findById(user.getUserEmail()).isPresent()){
             throw new UserEmailAlreadyExists("User Email-Id Already exists.");
         }
         else{
             updateCount = userDao.updateUser(user.getUserEmail(),user.getUserName(),user.getPasswd(),emailid);
+            if(updateCount==1){
+                localUser = result.get();
+                Set<User_Fav_Recipes> mapping = localUser.getUserMapping();
+                for(User_Fav_Recipes mapuser:mapping){
+                    mapuser.setUser(user);
+                }
+            }
         }
 
         return updateCount;

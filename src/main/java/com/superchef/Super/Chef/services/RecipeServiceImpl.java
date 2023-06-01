@@ -6,6 +6,7 @@ import com.superchef.Super.Chef.daos.FavRecipesDao;
 import com.superchef.Super.Chef.daos.RecipeDao;
 import com.superchef.Super.Chef.entities.FavRecipes;
 import com.superchef.Super.Chef.entities.Recipes;
+import com.superchef.Super.Chef.entities.User;
 import com.superchef.Super.Chef.entities.User_Fav_Recipes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,9 +65,25 @@ public class RecipeServiceImpl implements RecipeService {
 
     public void deleteRecipe(String recipename){
         Recipes recipe = recipeDao.findByrecipeName(recipename);
-        FavRecipes favRecipe = null;
+        Set<FavRecipes> favRecipeSet = null;
         if(recipe == null){
             throw new RecipeNotFound("Recipe Not Found For the Recipe Name.");
+        }
+        else{
+            favRecipeSet = favRecipeDao.findByfavrecipeName(recipename);
+            if(favRecipeSet!=null){
+                for(FavRecipes favrecipe: favRecipeSet){
+                    Set<User_Fav_Recipes> users = favrecipe.getFavMappings();
+                    for(User_Fav_Recipes user:users){
+                        user.getUser().getUserMapping().remove(user);
+                    }
+                }
+                favRecipeDao.deleteAll(favRecipeSet);
+            }
+            else{
+               throw new RecipeNotFound("Recipe Not Found");
+            }
+
         }
 
         recipeDao.deleteById(recipe.getRecipeId());

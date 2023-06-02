@@ -18,7 +18,6 @@ public class FavRecipes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favrecipeId", length = 100)
     private int favrecipeId;
-
     @Column(name = "favrecipeName", length = 200)
     private String favrecipeName;
     @Column(name = "favimageUrl", length = 65535, columnDefinition = "TEXT")

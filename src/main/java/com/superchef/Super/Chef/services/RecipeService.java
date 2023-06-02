@@ -3,6 +3,7 @@ package com.superchef.Super.Chef.services;
 import com.superchef.Super.Chef.entities.Recipes;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RecipeService {
 
@@ -15,7 +16,9 @@ public interface RecipeService {
 
     Recipes getRecipeByName(String recipename);
 
-    List<Recipes> getRecipeByIngName(String ingname);
+    Set<Recipes> getRecipeByEmail(String emailid);
+
+    Set<Recipes> getRecipeByIngName(String ingname);
 
     void deleteRecipe(String recipename);
 

@@ -4,6 +4,7 @@ import com.superchef.Super.Chef.Exceptions.UserEmailAlreadyExists;
 import com.superchef.Super.Chef.Exceptions.userNotFound;
 import com.superchef.Super.Chef.daos.UserDao;
 import com.superchef.Super.Chef.entities.User;
+import com.superchef.Super.Chef.entities.UserIng;
 import com.superchef.Super.Chef.entities.User_Fav_Recipes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,9 @@ public class UserServiceImpl implements UserService{
                 for(User_Fav_Recipes mapuser:mapping){
                     mapuser.setUser(user);
                 }
+                for(UserIng mapIng: localUser.getUseringMapping()){
+                    mapIng.setUser(user);
+                }
             }
         }
         else if(userDao.findById(user.getUserEmail()).isPresent()){
@@ -94,6 +98,9 @@ public class UserServiceImpl implements UserService{
                 Set<User_Fav_Recipes> mapping = localUser.getUserMapping();
                 for(User_Fav_Recipes mapuser:mapping){
                     mapuser.setUser(user);
+                }
+                for(UserIng mapIng: localUser.getUseringMapping()){
+                    mapIng.setUser(user);
                 }
             }
         }

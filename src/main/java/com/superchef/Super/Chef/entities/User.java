@@ -23,6 +23,20 @@ public class User {
     @Column(name = "user_passwd",length = 100)
     private String passwd;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user",fetch = FetchType.EAGER)
+    private Set<User_Fav_Recipes> userMapping = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<UserIng> useringMapping = new HashSet<>();
+
+    public Set<UserIng> getUseringMapping() {
+        return useringMapping;
+    }
+
+    public void setUseringMapping(Set<UserIng> useringMapping) {
+        this.useringMapping = useringMapping;
+    }
+
     public Set<User_Fav_Recipes> getUserMapping() {
         return userMapping;
     }
@@ -30,9 +44,6 @@ public class User {
     public void setUserMapping(Set<User_Fav_Recipes> userMapping) {
         this.userMapping = userMapping;
     }
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user",fetch = FetchType.EAGER)
-    private Set<User_Fav_Recipes> userMapping = new HashSet<>();
 
 
     public String getUserEmail() {

@@ -29,6 +29,17 @@ public class User {
     @OneToMany(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<UserIng> useringMapping = new HashSet<>();
 
+    @OneToMany(mappedBy="user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Set<IngCart> useringCart = new HashSet<>();
+
+    public Set<IngCart> getUseringCart() {
+        return useringCart;
+    }
+
+    public void setUseringCart(Set<IngCart> useringCart) {
+        this.useringCart = useringCart;
+    }
+
     public Set<UserIng> getUseringMapping() {
         return useringMapping;
     }

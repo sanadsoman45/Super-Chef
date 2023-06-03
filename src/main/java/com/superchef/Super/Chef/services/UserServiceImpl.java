@@ -3,6 +3,7 @@ package com.superchef.Super.Chef.services;
 import com.superchef.Super.Chef.Exceptions.UserEmailAlreadyExists;
 import com.superchef.Super.Chef.Exceptions.userNotFound;
 import com.superchef.Super.Chef.daos.UserDao;
+import com.superchef.Super.Chef.entities.IngCart;
 import com.superchef.Super.Chef.entities.User;
 import com.superchef.Super.Chef.entities.UserIng;
 import com.superchef.Super.Chef.entities.User_Fav_Recipes;
@@ -86,6 +87,9 @@ public class UserServiceImpl implements UserService{
                 for(UserIng mapIng: localUser.getUseringMapping()){
                     mapIng.setUser(user);
                 }
+                for(IngCart mapCart: localUser.getUseringCart()){
+                    mapCart.setUser(user);
+                }
             }
         }
         else if(userDao.findById(user.getUserEmail()).isPresent()){
@@ -101,6 +105,9 @@ public class UserServiceImpl implements UserService{
                 }
                 for(UserIng mapIng: localUser.getUseringMapping()){
                     mapIng.setUser(user);
+                }
+                for(IngCart mapCart: localUser.getUseringCart()){
+                    mapCart.setUser(user);
                 }
             }
         }

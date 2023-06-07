@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/superchef")
@@ -30,10 +31,14 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes/{ingname}")
-    public List<Recipes> getRecipeByIngName(@PathVariable String ingname){
+    public Set<Recipes> getRecipeByIngName(@PathVariable String ingname){
         return recipeService.getRecipeByIngName(ingname);
     }
 
+    @GetMapping("/recipes/user/{emailid}")
+    public Set<Recipes> getRecipeByEmail(@PathVariable String emailid){
+        return recipeService.getRecipeByEmail(emailid);
+    }
 
     @DeleteMapping("/recipes/{recipename}")
     public String deleteUser(@PathVariable String recipename){

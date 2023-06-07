@@ -66,6 +66,24 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptionResponse,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(CartItemAlreadyExists exception){
+        ExceptionResponse exceptionResponse = new ExceptionResponse();
+        exceptionResponse.setMessage(exception.getMessage());
+        exceptionResponse.setStatusCode(HttpStatus.ALREADY_REPORTED.value());
+        exceptionResponse.setTimeStamp(LocalDateTime.now());
+        return new ResponseEntity<>(exceptionResponse,HttpStatus.ALREADY_REPORTED);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleException(CartItemNotFound exception){
+        ExceptionResponse exceptionResponse = new ExceptionResponse();
+        exceptionResponse.setMessage(exception.getMessage());
+        exceptionResponse.setTimeStamp(LocalDateTime.now());
+        exceptionResponse.setStatusCode(HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(exceptionResponse,HttpStatus.NOT_FOUND);
+    }
+
 //    @ExceptionHandler
 //    public ResponseEntity<ExceptionResponse> handlerException(Exception exception){
 //        ExceptionResponse exceptionResponse = new ExceptionResponse();
